@@ -1,0 +1,14 @@
+[includeIf "gitdir:~/hobby/"]
+  path = ~/.gitconfig-hobby
+
+[user]
+  name = ###
+  username = ###
+  email = ###
+  signingkey = ####
+
+[core]
+  excludesfile = ~/.gitignore
+
+[commit]
+  gpgsign = true
