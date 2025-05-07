@@ -1,11 +1,11 @@
-[includeIf "gitdir:~/hobby/"]
-  path = ~/.gitconfig-hobby
-
 [user]
   name = ###
   username = ###
   email = ###
   signingkey = ####
+
+[includeIf "gitdir:~/hobby/"]
+  path = ~/.gitconfig-hobby
 
 [core]
   excludesfile = ~/.gitignore
