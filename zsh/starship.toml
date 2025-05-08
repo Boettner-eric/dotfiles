@@ -11,7 +11,9 @@ $git_branch\
 $git_status\
 $cmd_duration\
 $battery\
-$character"""
+$all\
+$character
+"""
 
 # Format without a line break before the arrow
 [line_break]
@@ -34,7 +36,7 @@ format = "[$symbol$percentage]($style) "
 # Directory configuration
 [directory]
 style = "blue bold"
-truncation_length = 3
+truncation_length = 1
 truncate_to_repo = true
 read_only = " 🔒"
 read_only_style = "red"
@@ -115,11 +117,10 @@ symbol = "�� "
 style = "blue"
 disabled = true
 
-# Output the current git config email address
 [custom.git_config_email]
 description = "Output the current git user's configured email address."
-format = "[$symbol($output)]($style) "
 when = "git rev-parse --is-inside-work-tree >/dev/null 2>&1"
-style = "green"
 command = "git config user.email | sed -E 's/eric@hmbradley.com/(work)/;s/boettner.eric@gmail.com/(personal)/'"
+format = "[$symbol($output)]($style) "
+style = "green"
 disabled = false

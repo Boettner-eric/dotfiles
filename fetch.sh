@@ -21,34 +21,39 @@ safe_copy() {
 }
 
 all() {
-    zsh
-    brew
-    starship
+    fetch_starship
+    fetch_zsh
+    function_b
+    function_c
 }
 
-brew() {
-    # fetch homebrew from github
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    # install brew packages from Brewfile
-    brew bundle --file=./Brewfile
+
+fetch_starship() {
+    print "Fetching starship config"
+    safe_copy ~/.config/starship.toml ./zsh/starship.toml
 }
 
-zsh() {
-    # oh-my-zsh
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    safe_copy ./zsh/.zshrc ~/.zshrc
+fetch_zsh() {
+    print "Saving zsh config"
+    safe_copy ~/.zshrc ./zsh/.zshrc
 }
 
-starship() {
-    safe_copy ./zsh/starship.toml ~/.config/starship.toml
+function_b() {
+    print "Executing function B"
+    # Add your function B logic here
+}
+
+function_c() {
+    print "Executing function C"
+    # Add your function C logic here
 }
 
 show_usage() {
-    print "Usage: ${0:t} [-b] [-z] [-s]"
+    print "Usage: ${0:t} [-s] [-b] [-c]"
     print "Options:"
-    print "  -b    Install brew packages"
-    print "  -z    Install and configure oh-my-zsh"
-    print "  -s    Configure starship"
+    print "  -s    Save starship config"
+    print "  -b    Execute function B"
+    print "  -c    Execute function C"
     print "  -h    Show this help message"
     exit 1
 }
@@ -62,24 +67,29 @@ typeset -A FLAGS=(
 )
 
 # Parse command line arguments
-while getopts "bzs" opt; do
+while getopts "zasbch" opt; do
     case $opt in
-        b) FLAGS[b]=true ;;
-        z) FLAGS[z]=true ;;
+        a) FLAGS[a]=true ;;
         s) FLAGS[s]=true ;;
+        b) FLAGS[b]=true ;;
+        c) FLAGS[c]=true ;;
+        z) FLAGS[z]=true ;;
         h) show_usage ;;
         \?) show_usage ;;
     esac
 done
 
 # Check if at least one flag was provided
-if [[ ${FLAGS[b]} == false && ${FLAGS[z]} == false && ${FLAGS[s]} == false ]]; then
+if [[ ${FLAGS[a]} == false && ${FLAGS[s]} == false && ${FLAGS[b]} == false && ${FLAGS[c]} == false && ${FLAGS[z]} == false ]]; then
     print "Error: No function flag provided" >&2
     show_usage
 fi
 
 # Execute functions based on flags
-[[ ${FLAGS[b]} == true ]] && brew
-[[ ${FLAGS[z]} == true ]] && zsh
-[[ ${FLAGS[s]} == true ]] && starship
+[[ ${FLAGS[a]} == true ]] && all
+[[ ${FLAGS[s]} == true ]] && fetch_starship
+[[ ${FLAGS[z]} == true ]] && save_zsh
+[[ ${FLAGS[b]} == true ]] && function_b
+[[ ${FLAGS[c]} == true ]] && function_c
+
 exit 0
