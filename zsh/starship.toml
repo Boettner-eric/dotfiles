@@ -1,19 +1,125 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Disable the default newline
 add_newline = false
+
+# Main format string
+format = """
+${custom.git_config_email}\
+$directory\
+$git_branch\
+$git_status\
+$cmd_duration\
+$battery\
+$character"""
 
 # Format without a line break before the arrow
 [line_break]
 disabled = true
 
-format = "$all$character"
+[[battery.display]]
+threshold = 15
+discharging_symbol = "find outlet "
+charging_symbol = "charging "
 
+[[battery.display]]
+threshold = 30
+discharging_symbol = ''
+charging_symbol = ''
+style = 'bold yellow'
+
+[battery]
+format = "[$symbol$percentage]($style) "
+
+# Directory configuration
+[directory]
+style = "blue bold"
+truncation_length = 3
+truncate_to_repo = true
+read_only = " 🔒"
+read_only_style = "red"
+
+# Git branch configuration
 [git_branch]
+format = "on [($branch)]($style) "
+style = "purple"
 symbol = ""
 
+# Git status configuration
 [git_status]
+up_to_date = ''
+untracked = ''
+stashed = ''
+modified = ''
+renamed = ''
+deleted = ''
+conflicted = 'conflicts '
+ahead = 'ahead '
+behind = 'behind '
+diverged = 'diverged '
+staged = 'staged '
+format = '([$all_status$ahead_behind]($style))'
+style = "yellow"
+disabled = false
+
+[git_metrics]
+added_style = 'bold blue'
+format = '[+$added]($added_style)/[-$deleted]($deleted_style)'
 disabled = true
 
+# Command duration configuration
+[cmd_duration]
+format = "[$duration]($style) "
+style = "yellow"
+min_time = 2000
+
+
+# Character configuration
+[character]
+success_symbol = "[❯](purple)"
+error_symbol = "[❯](red)"
+vicmd_symbol = "[❮](green)"
+
+# Package configuration
 [package]
 disabled = true
 
 [elixir]
 disabled = true
+
+# Node.js configuration
+[nodejs]
+format = "[$symbol$version](green bold) "
+symbol = "⬢ "
+disabled = true
+
+# Python configuration
+[python]
+format = "[$symbol$version](blue bold) "
+symbol = "🐍 "
+
+# Rust configuration
+[rust]
+format = "[$symbol$version](red bold) "
+disabled = true
+
+# Go configuration
+[golang]
+format = "[$symbol$version](cyan bold) "
+disabled = true
+
+# Docker configuration
+[docker_context]
+format = "[$symbol$context]($style) "
+symbol = "�� "
+style = "blue"
+disabled = true
+
+# Output the current git config email address
+[custom.git_config_email]
+description = "Output the current git user's configured email address."
+format = "[$symbol($output)]($style) "
+when = "git rev-parse --is-inside-work-tree >/dev/null 2>&1"
+style = "green"
+command = "git config user.email | sed -E 's/eric@hmbradley.com/(work)/;s/boettner.eric@gmail.com/(personal)/'"
+disabled = false
