@@ -7,5 +7,5 @@ A place to store various configs
 3. easy updates / backups
 
 ## Instructions
-- fetch.sh makes a copy of current config files to this repo
-- install.sh runs install scripts for packages and copies configs to the right locations
+- `backup.sh` makes a copy of current config files to this repo
+- `install.sh` runs install scripts for packages and copies configs to the right locations
